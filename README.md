@@ -27,7 +27,7 @@ Optionally set a multi factor authentication code:
 To start the container in foreground run:
 
 	docker run -it --rm --privileged --env-file=.env \
-	  -p 8888:8888 -p 8889:8889 wazum/openconnect-proxy:latest
+	  -p 8888:8888 -p 8889:8889 openconnect:latest
 
 The proxies are listening on ports 8888 (http/https) and 8889 (socks). Either use `--net host` or `-p <local port>:8888 -p <local port>:8889` to make the proxy ports available on the host.
 
@@ -45,7 +45,7 @@ To start the container in daemon mode (background) set the `-d` option:
 
 In daemon mode you can view the stderr log with `docker logs`:
 
-	docker logs `docker ps|grep "wazum/openconnect-proxy"|awk -F' ' '{print $1}'`
+	docker logs `docker ps|grep "openconnect"|awk -F' ' '{print $1}'`
 
 Set the environment variables for _openconnect_ in the `.env` file again (or specify another file) and 
 map the configured ports in the container to your local ports if you want to access the VPN 
@@ -85,7 +85,7 @@ An alternative is _corkscrew_ (e.g. install with `brew install corkscrew` on mac
 
 You can build the container yourself with
 
-	docker build -f build/Dockerfile -t wazum/openconnect-proxy:custom ./build
+	docker build -f build/Dockerfile -t openconnect ./build
 
 
 
