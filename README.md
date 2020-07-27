@@ -2,6 +2,13 @@
 
 # Requirements
 
+You can set env vars using the docker run option `-e`:
+
+	docker run … -e OPENCONNECT_URL=vpn.gateway.com/example \
+	-e OPENCONNECT_OPTIONS='<Openconnect Options>' \
+	-e OPENCONNECT_USER=<Username> …
+
+
 If you don't want to set the environment variables on the command line
 set the environment variables in a `.env` file:
 
@@ -18,11 +25,11 @@ See the [openconnect documentation](https://www.infradead.org/openconnect/manual
 
 Either set the password in the `.env` file or leave the variable `OPENCONNECT_PASSWORD` unset, so you get prompted when starting up the container.
 
-# Run container in foreground
+# Run container
 
-To start the container in foreground run:
+To start the container in background run:
 
-	docker run -it --rm --privileged --env-file=.env \
+	docker run -it -d --privileged --env-file=.env \
 	  -p 8888:8888 --name=openconnect openconnect:latest
 
 The proxy is listening on 8888 and can accept both HTTP/HTTPS traffic. SSH can also be tunneled over it by setting a ProxyCommand in your ssh config:
@@ -34,11 +41,6 @@ Host somehost
     HostName vm.example.dev
     ProxyCommand /usr/bin/nc -X connect -x 127.0.0.1:1080 %h %p
 ```
-
-You can set env vars using the docker run option `-e`:
-	docker run … -e OPENCONNECT_URL=vpn.gateway.com/example \
-	-e OPENCONNECT_OPTIONS='<Openconnect Options>' \
-	-e OPENCONNECT_USER=<Username> …
 
 # Build
 
