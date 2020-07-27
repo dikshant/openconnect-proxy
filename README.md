@@ -1,4 +1,4 @@
-# Openconnect + sslh
+# Openconnect + TinyProxy
 
 # Requirements
 
@@ -23,12 +23,19 @@ Either set the password in the `.env` file or leave the variable `OPENCONNECT_PA
 To start the container in foreground run:
 
 	docker run -it --rm --privileged --env-file=.env \
-	  -p 7777:7777 --name=openconnect openconnect:latest
+	  -p 8888:8888 --name=openconnect openconnect:latest
 
-The proxy is listening on 7777 and can accept both HTTP/HTTPS proxy traffic and SSH traffic over the same port (7777) and multiplex it to the instance of SSH daemon and tiny proxy running inside the container depending on the type of traffic.
+The proxy is listening on 8888 and can accept both HTTP/HTTPS traffic. SSH can also be tunneled over it by setting a ProxyCommand in your ssh config:
 
-Without using a `.env` file set the environment variables on the command line with the docker run option `-e`:
 
+```
+Host somehost
+    User username
+    HostName vm.example.dev
+    ProxyCommand /usr/bin/nc -X connect -x 127.0.0.1:1080 %h %p
+```
+
+You can set env vars using the docker run option `-e`:
 	docker run … -e OPENCONNECT_URL=vpn.gateway.com/example \
 	-e OPENCONNECT_OPTIONS='<Openconnect Options>' \
 	-e OPENCONNECT_USER=<Username> …
