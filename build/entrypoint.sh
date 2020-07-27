@@ -1,6 +1,6 @@
 #!/bin/sh
 
-tinyproxy
+/usr/local/bin/microsocks -i 0.0.0.0 -p 8888 & 
 
 run () {
   echo $OPENCONNECT_PASSWORD | openconnect --servercert pin-sha256:kzxsqW1zeKyDqJEZnsVFqgA+nXMSR2JlyejZQv+vS68= --juniper -u $OPENCONNECT_USER $OPENCONNECT_OPTIONS --no-dtls --passwd-on-stdin -v $OPENCONNECT_URL
